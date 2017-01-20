@@ -1,6 +1,24 @@
 <div class="col-md-4">
 
-    
+
+                <!-- Login -->
+                <div class="well">
+                    <h4>Blog Search</h4>
+
+                    <form action="includes/login.php" method="post">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Enter your Username">
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Enter your Password">
+                        </div>
+
+                        <div class="form-group">
+                            <input name="login" type="submit" class="btn btn-primary" value="Login">
+                        </div>
+                    </form>
+                    <!-- /.input-group -->
+                </div>
 
                 <!-- Blog Search Well -->
                 <div class="well">
@@ -39,9 +57,10 @@
                                 <?php 
                                 
                                  while($row = mysqli_fetch_assoc($select_categories_sidebar)){
+                                    $cat_id = $row['cat_id'];
                                     $cat_title = $row['cat_title'];
 
-                                    echo "<li><a href='#'>{$cat_title}</a></li>";
+                                    echo "<li><a href='category.php?category=$cat_id'>{$cat_title}</a></li>";
                                 }
                                 
                                 ?>
