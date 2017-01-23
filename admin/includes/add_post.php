@@ -1,3 +1,7 @@
+<h1 class="page-header">
+    Add Post
+</h1>
+
 <?php
 
     if(isset($_POST['create-post'])){
@@ -31,6 +35,12 @@
         $create_post_query = mysqli_query($connection, $query);
 
         confirmQuery($create_post_query);
+
+        if($create_post_query){
+            echo "<h4 class='bg-success text-success' style='padding: 5px'>User successfully created</h4>";
+
+            header("refresh: 2; URL = posts.php");
+        }
     }
 
 ?>
@@ -73,8 +83,14 @@
     </div>
 
     <div class="form-group">
-        <label for="status">Post Status</label>
-        <input type="text" class="form-control" name="status">
+        <select name="status" id="">
+
+            <option value="Draft">Draft</option>
+            <option value="Published">Publish</option>
+            
+            
+
+        </select>
     </div>
 
     <div class="form-group">

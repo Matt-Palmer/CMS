@@ -1,3 +1,8 @@
+
+                        <h1 class="page-header">
+                            Posts
+                        </h1>
+
 <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>

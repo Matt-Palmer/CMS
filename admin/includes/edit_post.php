@@ -68,9 +68,25 @@
     </div>
 
     <div class="form-group">
-        <label for="status">Post Status</label>
-        <input type="text" class="form-control" name="status" value="<?php echo $post_status;?>">
+        <select name="post_status" id="">
+
+            <option value="<?php echo $post_status;?>"><?php echo $post_status;?></option>
+
+            <?php 
+            
+                if($post_status == "Published"){
+                    echo "<option value='Draft'>Draft</option>";
+                }else{
+                    echo "<option value='Published'>Publish</option>";
+                }
+            
+            ?>
+            
+
+        </select>
     </div>
+
+    
 
     <div class="form-group">
         <label for="image">Post Image</label><br>
@@ -104,7 +120,7 @@
             $post_image = $_FILES['image']['name'];
             $post_image_temp = $_FILES['image']['tmp_name'];
             $post_tags = $_POST['tags'];
-            $post_status = $_POST['status'];
+            $post_status = $_POST['post_status'];
             $post_content = $_POST['content'];
 
             move_uploaded_file($post_image_temp, "../images/$post_image");

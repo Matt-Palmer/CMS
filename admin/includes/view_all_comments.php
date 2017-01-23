@@ -11,7 +11,6 @@
                                     <th>Approve</th>
                                     <th>Decline</th>
                                     <th>Delete</th>
-                                    <th>Edit</th>
                                 </tr>
                             </thead>
 
@@ -70,7 +69,6 @@
                                         echo "<td><a href='comments.php?approve=$comment_id'>Approve</a></td>";            
                                         echo "<td><a href='comments.php?decline=$comment_id'>Decline</a></td>";            
                                         echo "<td><a href='comments.php?delete=$comment_id'>Delete</a></td>";           
-                                        echo "<td><a href='comments.php?source=edit_post&p_id=$comment_id'>Edit</a></td>";            
                                         echo "</tr>";
 
                                     }

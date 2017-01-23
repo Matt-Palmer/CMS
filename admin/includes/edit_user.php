@@ -26,6 +26,9 @@
 
 ?>
 
+<h1 class="page-header">
+    Edit User
+</h1>
 
 <form action="" method="post" enctype="multipart/form-data">
 

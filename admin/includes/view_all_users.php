@@ -1,3 +1,7 @@
+<h1 class="page-header">
+    Users
+</h1>
+
 <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>

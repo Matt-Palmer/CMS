@@ -159,7 +159,7 @@
             $query = "UPDATE users SET user_firstname = '{$user_firstname}', ";
             $query .= "user_lastname = '{$user_lastname}', user_email = '{$user_email}', ";
             $query .= "username = '{$username}', user_password = '{$user_password}', ";
-            $query .= "user_role = '{$user_role}' WHERE user_id = {$user_id} ";
+            $query .= "user_role = '{$user_role}' WHERE username = '{$username}' ";
 
             $update_query = mysqli_query($connection, $query);
                                                 

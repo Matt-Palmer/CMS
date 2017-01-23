@@ -13,42 +13,10 @@
                     <div class="col-lg-12">
 
                         <h1 class="page-header">
-                            Administration
-                            <small>Subheading</small>
+                            Comments
                         </h1>
 
-                        <?php 
-                        
-                            if(isset($_GET['source'])){
-                                $source = $_GET['source'];
-                            }else{
-                                $source = '';
-                            }
-                        
-                            switch($source){
-
-                                case 'add_post':
-                                include 'includes/add_post.php';
-                                break;
-
-                                case 'edit_post':
-                                include 'includes/edit_post.php';
-                                break;
-
-                                case '23':
-                                echo '';
-                                break;
-
-                                case '98':
-                                echo '';
-                                break;
-
-                                default:
-                                include 'includes/view_all_comments.php';
-                                break;
-
-                            }
-                        ?>
+                        <?php include 'includes/view_all_comments.php';?>
                         
                     </div>   
                 </div>

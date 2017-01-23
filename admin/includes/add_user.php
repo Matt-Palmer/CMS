@@ -1,3 +1,7 @@
+<h1 class="page-header">
+    Add User
+</h1>
+
 <?php
 
     if(isset($_POST['create_user'])){
@@ -23,6 +27,12 @@
         $create_user_query = mysqli_query($connection, $query);
 
         confirmQuery($create_user_query);
+
+        if($create_user_query){
+            echo "<h4 class='bg-success text-success' style='padding: 5px'>User successfully created</h4>";
+
+            header("refresh: 2; URL = users.php");
+        }
     }
 
 ?>
@@ -65,8 +75,8 @@
         <select name="user_role" id="">
 
             <option value="">Select Options</option>
-            <option value="admin">Admin</option>
-            <option value="subscriber">Subscriber</option>
+            <option value="Admin">Admin</option>
+            <option value="Subscriber">Subscriber</option>
 
         </select>
     </div>
