@@ -3,14 +3,10 @@
 
 <?php include "../includes/db.php";?>
 
-
 <?php
-
     if(!isset($_SESSION['user_role'])){
-            header('Location: ../index.php');
-        
+            header('Location: ../index.php'); 
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +38,12 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link href="css/style.css" rel="stylesheet">
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript" src="js/tinymce.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
 
 </head>
 
