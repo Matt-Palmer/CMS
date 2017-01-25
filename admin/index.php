@@ -208,7 +208,7 @@
                                 $element_count = [$post_count, $post_active_count, $post_draft_count];
 
                                 for($i = 0; $i < sizeof($element_text); $i++){
-                                    echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
+                                   echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
                                 }
                             
                             ?>
@@ -218,9 +218,9 @@
 
                             var options = {
                             chart: {
-                                title: 'Posts',
-                                subtitle: '',
-                            }
+                                title: 'Posts', 
+                            },                            
+                            colors: ['#337ab7']
                             };
 
                             var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
@@ -258,8 +258,8 @@
                             var options = {
                             chart: {
                                 title: 'Comments',
-                                subtitle: '',
-                            }
+                            },
+                            colors: ['#5cb85c']
                             };
 
                             var chart = new google.charts.Bar(document.getElementById('comment_chart'));
@@ -301,8 +301,8 @@
                             var options = {
                             chart: {
                                 title: 'Users',
-                                subtitle: '',
-                            }
+                            },
+                            colors: ['#f0ad4e']
                             };
 
                             var chart = new google.charts.Bar(document.getElementById('user_chart'));

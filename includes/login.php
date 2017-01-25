@@ -46,6 +46,8 @@
             header("Location: ../index.php");
             
         }
+    }else{
+        header("Location: logout.php");
     }
 
 

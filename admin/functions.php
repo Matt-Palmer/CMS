@@ -108,6 +108,7 @@ function displayPostData(){
         $post_comment_count = $row['post_comment_count'];
 
         echo "<tr>";
+        echo "<td><input class='checkboxes' type='checkbox' name='checkboxArray[]' value='{$post_id}'></td>";
         echo "<td>{$post_id}</td>";
         echo "<td>{$post_author}</td>";
         echo "<td>{$post_title}</td>";
@@ -128,8 +129,9 @@ function displayPostData(){
         echo "<td>{$post_tags}</td>";
         echo "<td>{$post_comment_count}</td>";
         echo "<td>{$post_date}</td>";
-        echo "<td><a href='posts.php?delete=$post_id'>Delete</a></td>";
+        echo "<td><a href='../post.php?p_id=$post_id'>View</a></td>";
         echo "<td><a href='posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
+        echo "<td><a href='posts.php?delete=$post_id'>Delete</a></td>";
         echo "</tr>";
     }
 }
@@ -168,10 +170,12 @@ function editPost($post_id){
         $query .= "WHERE post_id = {$post_id}";
         $update_query = mysqli_query($connection, $query);
                                             
-        if(!$update_query){
-            die("Query Failed" . mysqli_error($connection));
+        if(confirmQuery($update_query)){
+            echo "<h4 class='bg-danger text-danger' style='padding: 5px'>Post could not be updated</h4>";
         }else{
-            header("Location: posts.php");
+            echo "<h4 class='bg-success text-success' style='padding: 5px'>Post successfully updated</h4>";
+
+            header("refresh: 2; URL = posts.php");
         }
     }
 }
@@ -209,8 +213,6 @@ function addUser(){
         $query .= "VALUES('{$username}', '{$user_password}', '{$user_firstname}', '{$user_lastname}', '{$user_email}', '{$user_image}', '{$user_role}')";
 
         $create_user_query = mysqli_query($connection, $query);
-
-        confirmQuery($create_user_query);
 
         if(confirmQuery($create_user_query)){
             echo "<h4 class='bg-danger text-danger' style='padding: 5px'>User could not be created</h4>";

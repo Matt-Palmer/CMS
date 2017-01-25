@@ -6,26 +6,31 @@
 
     <?php addPost(); ?>
 
-    <div class="form-group">
-        <label for="title">Post Title</label>
-        <input type="text" class="form-control" name="title">
-    </div>
+        <div class="form-group">
+            <label for="title">Post Title</label>
+            <input type="text" class="form-control" name="title">
+        </div>
+    
 
-    <div class="form-group">
-        <select name="post_category_id" id="">
-            <?php 
-                $edit_query = "SELECT * FROM categories";
+    <div id="category-options-outer-container" class="col-xs-12">
+        <div id="category-options-container" class="form-group col-xs-4">
+            <label for="category">Category</label>
+            <select class="form-control" name="post_category_id" id="">
+                <option value="">Select option</option>
+                <?php 
+                    $edit_query = "SELECT * FROM categories";
 
-                $select_categories_id = mysqli_query($connection, $edit_query);
+                    $select_categories_id = mysqli_query($connection, $edit_query);
 
-                while($row = mysqli_fetch_assoc($select_categories_id)){
-                    $cat_id = $row['cat_id'];
-                    $cat_title = $row['cat_title'];
+                    while($row = mysqli_fetch_assoc($select_categories_id)){
+                        $cat_id = $row['cat_id'];
+                        $cat_title = $row['cat_title'];
 
-                    echo "<option value='$cat_id'>$cat_title</option>";
-                }
-            ?>
-        </select>
+                        echo "<option value='$cat_id'>$cat_title</option>";
+                    }
+                ?>
+            </select>
+        </div>
     </div>
 
     <div class="form-group">
@@ -33,11 +38,15 @@
         <input type="text" class="form-control" name="author">
     </div>
 
-    <div class="form-group">
-        <select name="status" id="">
-            <option value="Draft">Draft</option>
-            <option value="Published">Publish</option>
-        </select>
+    <div id="publish-options-outer-container" class="col-xs-12">
+        <div id="publish-options-container" class="form-group col-xs-4">
+            <label for="publish-options">Publish Options</label>
+            <select class="form-control" name="status" id="">
+                <option value="Draft">Select option</option>
+                <option value="Draft">Draft</option>
+                <option value="Published">Publish</option>
+            </select>
+        </div>
     </div>
 
     <div class="form-group">

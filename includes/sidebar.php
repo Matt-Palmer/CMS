@@ -4,6 +4,7 @@
                 <!-- Login -->
                 <div class="well">
                     <h4>Blog Search</h4>
+                    
 
                     <form action="includes/login.php" method="post">
                         <div class="form-group">
@@ -15,7 +16,12 @@
 
                         <div class="form-group">
                             <input name="login" type="submit" class="btn btn-primary" value="Login">
+                            <input name="logout" type="submit" class="btn btn-default" value="Log Out">
                         </div>
+
+                        
+                        
+
                     </form>
                     <!-- /.input-group -->
                 </div>

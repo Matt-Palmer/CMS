@@ -22,7 +22,11 @@
         }   
     }
 ?>
+<h1 class="page-header">
+    Update Post
+</h1>
 
+<?php editPost($post_id);?>
 
 <form action="" method="post" enctype="multipart/form-data">
 
@@ -87,9 +91,9 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" class="btn btn-primary" name="update-post" value="Publish Post">
+        <input type="submit" class="btn btn-primary" name="update-post" value="Update Post">
     </div>
 
-    <?php editPost($post_id);?>
+    
 
 </form>
