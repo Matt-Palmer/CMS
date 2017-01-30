@@ -6,7 +6,7 @@
             <th>Comment</th>
             <th>Email</th>
             <th>Status</th>
-            <!--<th>In Response to</th>-->
+            <th>In Response to</th>
             <th>Date</th>
             <th>Approve</th>
             <th>Decline</th>

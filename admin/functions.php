@@ -67,9 +67,11 @@ function addPost(){
         $post_tags = $_POST['tags'];
         $post_content = $_POST['content'];
         $post_date = date('d-m-y');
-        $date = gmdate("d-m-y h:i:s");
+        $date = gmdate("y-m-d h:i:s");
 
         echo $date;
+
+         
 
         move_uploaded_file($post_image_temp, "../images/$post_image");
 
@@ -92,7 +94,7 @@ function displayPostData(){
 
     global $connection;
 
-    $query = "SELECT * FROM posts";
+    $query = "SELECT * FROM posts ORDER BY post_date DESC";
     $select_posts = mysqli_query($connection, $query);
 
     while($row = mysqli_fetch_assoc($select_posts)){
@@ -106,6 +108,7 @@ function displayPostData(){
         $post_tags = $row['post_tags'];
         $post_status = $row['post_status'];
         $post_comment_count = $row['post_comment_count'];
+        $post_views = $row['post_views'];
 
         echo "<tr>";
         echo "<td><input class='checkboxes' type='checkbox' name='checkboxArray[]' value='{$post_id}'></td>";
@@ -126,12 +129,13 @@ function displayPostData(){
 
         echo "<td>{$post_status}</td>";
         echo "<td><img src='../images/{$post_image}' width='50px' height='50px'></td>";
+        echo "<td>{$post_views}</td>";
         echo "<td>{$post_tags}</td>";
         echo "<td>{$post_comment_count}</td>";
         echo "<td>{$post_date}</td>";
         echo "<td><a href='../post.php?p_id=$post_id'>View</a></td>";
         echo "<td><a href='posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
-        echo "<td><a href='posts.php?delete=$post_id'>Delete</a></td>";
+        echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete this post?'); \" href='posts.php?delete=$post_id'>Delete</a></td>";
         echo "</tr>";
     }
 }
@@ -248,7 +252,7 @@ function displayUserData(){
         echo "<td>{$user_lastname}</td>";
         echo "<td>{$user_email}</td>"; 
         echo "<td>{$user_role}</td>";           
-        echo "<td><a href='users.php?delete=$user_id'>Delete</a></td>";           
+        echo "<td><a onClick = \"javascript: return confirm('Are you sure you want to delete this user?'); \" href='users.php?delete=$user_id'>Delete</a></td>";           
         echo "<td><a href='users.php?source=edit_user&p_id=$user_id'>Edit</a></td>";            
         echo "</tr>";
     }
@@ -278,6 +282,13 @@ function editUser($user_id){
                 $user_image = $row['user_image'];
             }
         }
+
+        $select_query = "SELECT randSalt FROM users";
+        $select_randSalt_query = mysqli_query($connection, $select_query);
+
+        $row = mysqli_fetch_assoc($select_randSalt_query);   
+        $salt = $row['randSalt'];
+        $user_password = crypt($user_password, $salt);
 
         $query = "UPDATE users SET user_firstname = '{$user_firstname}', ";
         $query .= "user_lastname = '{$user_lastname}', user_email = '{$user_email}', ";
@@ -373,7 +384,7 @@ function displayCommentTable(){
         echo "<td>{$comment_date}</td>";            
         echo "<td><a href='comments.php?approve=$comment_id'>Approve</a></td>";            
         echo "<td><a href='comments.php?decline=$comment_id'>Decline</a></td>";            
-        echo "<td><a href='comments.php?delete=$comment_id'>Delete</a></td>";           
+        echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete this comment?'); \" href='comments.php?delete=$comment_id'>Delete</a></td>";           
         echo "</tr>";
     }
 }

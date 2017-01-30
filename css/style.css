@@ -2,5 +2,10 @@
     display: block;
     text-decoration: none;
     width: 100%;
+    
 }
 
+.pager li .active_link{
+    background-color: #337ab7;
+    color: #fff;
+}

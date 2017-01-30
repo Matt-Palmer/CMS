@@ -16,7 +16,7 @@
         <div id="category-options-container" class="form-group col-xs-4">
             <label for="category">Category</label>
             <select class="form-control" name="post_category_id" id="">
-                <option value="">Select option</option>
+                <option value="23">Select option</option>
                 <?php 
                     $edit_query = "SELECT * FROM categories";
 
