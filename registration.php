@@ -1,8 +1,4 @@
-<?php  include "includes/db.php"; ?>
- <?php  include "includes/header.php"; ?>
-
-
-
+<?php  include "includes/header.php"; ?>
 
     <!-- Navigation -->
     
@@ -33,6 +29,8 @@ if(isset($_POST['submit'])){
     $email = mysqli_real_escape_string($connection, $email);
     $password = mysqli_real_escape_string($connection, $password);
 
+    
+
     $error = '';
 
     if(empty($first_name)){
@@ -61,17 +59,9 @@ if(isset($_POST['submit'])){
        echo $error ;
        echo "</div>";
     }else{
-        $select_query = "SELECT randSalt FROM users";
+        
 
-        $select_randSalt_query = mysqli_query($connection, $select_query);
-
-        $row = mysqli_fetch_assoc($select_randSalt_query);
-            
-        $salt = $row['randSalt'];
-
-        $password = crypt($password, $salt);
-
-
+        $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
         $insert_query = "INSERT INTO users(username, user_password, user_firstname, user_lastname, user_email, user_role) ";
         $insert_query .= "VALUES('{$username}', '{$password}', '{$first_name}', '{$last_name}', '{$email}', 'Subscriber')";

@@ -1,3 +1,7 @@
+<?php include "includes/db.php";?>
+<?php include "admin/functions.php";?>
+
+<?php ob_start(); ?>
 <?php session_start();?>
 
 <!DOCTYPE html>
@@ -18,6 +22,8 @@
 
     <!-- Custom CSS -->
     <link href="css/blog-home.css" rel="stylesheet">
+
+    
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">

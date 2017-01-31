@@ -40,3 +40,24 @@ $(document).ready(function(){
     })*/
 
 });
+
+function refreshOnlineUsers(){
+    $.get("functions.php?onlineUsers=result", function(data){
+        $(".usersOnline").text(data);
+    });
+}
+
+function refreshCommentCount(){
+    $.get("functions.php?updateComment=result", function(data){
+        $(".commentCount").text(data);
+    });
+}
+
+setInterval(function(){
+    refreshOnlineUsers();
+    refreshCommentCount();
+}, 500);
+
+
+
+

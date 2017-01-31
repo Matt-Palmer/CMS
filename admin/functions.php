@@ -131,7 +131,17 @@ function displayPostData(){
         echo "<td><img src='../images/{$post_image}' width='50px' height='50px'></td>";
         echo "<td>{$post_views}</td>";
         echo "<td>{$post_tags}</td>";
-        echo "<td>{$post_comment_count}</td>";
+
+
+        $comment_query = "SELECT * FROM comments WHERE comment_post_id = $post_id";
+        $comment_count_query = mysqli_query($connection, $comment_query);
+        $count_comments = mysqli_num_rows($comment_count_query);
+
+        echo "<td>{$count_comments}</td>";
+
+
+
+
         echo "<td>{$post_date}</td>";
         echo "<td><a href='../post.php?p_id=$post_id'>View</a></td>";
         echo "<td><a href='posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
@@ -213,6 +223,8 @@ function addUser(){
 
         move_uploaded_file($user_image_temp, "../images/$user_image");
 
+        $user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' => 12));
+
         $query = "INSERT INTO users(username, user_password, user_firstname, user_lastname, user_email, user_image, user_role) ";
         $query .= "VALUES('{$username}', '{$user_password}', '{$user_firstname}', '{$user_lastname}', '{$user_email}', '{$user_image}', '{$user_role}')";
 
@@ -283,28 +295,60 @@ function editUser($user_id){
             }
         }
 
-        $select_query = "SELECT randSalt FROM users";
-        $select_randSalt_query = mysqli_query($connection, $select_query);
+        if(!empty($user_password)){
+            $query_password = "SELECT user_password FROM users WHERE user_id = $user_id";
+            $get_user_query = mysqli_query($connection, $query_password);
 
-        $row = mysqli_fetch_assoc($select_randSalt_query);   
-        $salt = $row['randSalt'];
-        $user_password = crypt($user_password, $salt);
+            $row = mysqli_fetch_assoc($get_user_query);
 
-        $query = "UPDATE users SET user_firstname = '{$user_firstname}', ";
-        $query .= "user_lastname = '{$user_lastname}', user_email = '{$user_email}', ";
-        $query .= "username = '{$username}', user_password = '{$user_password}', ";
-        $query .= "user_image = '{$user_image}', user_role = '{$user_role}' WHERE user_id = {$user_id} ";
+            $db_user_password = $row['user_password'];
 
-        $update_query = mysqli_query($connection, $query);
-                                            
-        if(!$update_query){
-            die("Query Failed" . mysqli_error($connection));
+            if($db_user_password != $user_password){
+
+                $hashed_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' => 12));
+            
+            }
+
+            $query = "UPDATE users SET user_firstname = '{$user_firstname}', ";
+            $query .= "user_lastname = '{$user_lastname}', user_email = '{$user_email}', ";
+            $query .= "username = '{$username}', user_password = '{$hashed_password}', ";
+            $query .= "user_image = '{$user_image}', user_role = '{$user_role}' WHERE user_id = {$user_id} ";
+
+            $update_query = mysqli_query($connection, $query);
+                                                
+            if(!$update_query){
+
+                die("Query Failed" . mysqli_error($connection));
+
+            }else{
+
+                echo "<h4 class='bg-success text-success' style='padding: 5px'>User successfully updated</h4>";
+
+                header("refresh: 2; URL = users.php");
+
+            }
+
         }else{
-            echo "<h4 class='bg-success text-success' style='padding: 5px'>User successfully updated</h4>";
 
-            header("refresh: 2; URL = users.php");
+            $query = "UPDATE users SET user_firstname = '{$user_firstname}', ";
+            $query .= "user_lastname = '{$user_lastname}', user_email = '{$user_email}', ";
+            $query .= "username = '{$username}', ";
+            $query .= "user_image = '{$user_image}', user_role = '{$user_role}' WHERE user_id = {$user_id} ";
+
+            $update_query = mysqli_query($connection, $query);
+                                                
+            if(!$update_query){
+                die("Query Failed" . mysqli_error($connection));
+            }else{
+                echo "<h4 class='bg-success text-success' style='padding: 5px'>User successfully updated</h4>";
+
+                header("refresh: 2; URL = users.php");
+            }
+
         }
+  
     }
+
 }
 
 function deleteUser(){
@@ -320,6 +364,46 @@ function deleteUser(){
     }
 }
 
+function usersOnline(){
+
+    if(isset($_GET['onlineUsers'])){
+
+        global $connection;
+        if(!$connection){
+            session_start();
+
+            include("../includes/db.php");
+
+            $session = session_id();
+            $time = time();
+            $timeout_in_seconds = 30;
+            $timeout = $time - $timeout_in_seconds;
+            
+            
+
+            $query = "SELECT * FROM users_online WHERE session = '$session'";
+            $send_query = mysqli_query($connection, $query);
+
+            $count = mysqli_num_rows($send_query);
+
+            if($count == NULL){
+                mysqli_query($connection, "INSERT INTO users_online(session, time) VALUES ('$session', '$time')");
+            }else{
+                mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
+            }
+
+            $users_online_query = mysqli_query($connection, "SELECT * FROM users_online");
+            echo $count_user = mysqli_num_rows($users_online_query);
+
+        }
+
+    }
+
+}
+usersOnline();
+
+
+
 function createComment(){
     global $connection;
 
@@ -329,8 +413,10 @@ function createComment(){
         $comment_author = $_POST['comment_author'];
         $comment_email = $_POST['comment_email'];
         $comment_content = $_POST['comment_content'];
+        $date = gmdate("y-m-d h:i:s");
+
         $query = "INSERT INTO comments(comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) ";
-        $query .= "VALUES($post_id, '{$comment_author}', '{$comment_email}', '{$comment_content}', 'unapproved', now())";
+        $query .= "VALUES($post_id, '{$comment_author}', '{$comment_email}', '{$comment_content}', 'unapproved', '$date')";
 
         $create_comment_query = mysqli_query($connection, $query);
 
@@ -388,6 +474,32 @@ function displayCommentTable(){
         echo "</tr>";
     }
 }
+
+function updateCommentCount(){
+
+    if(isset($_GET['updateComment'])){
+
+        global $connection;
+
+        if(!$connection){
+            session_start();
+
+            include("../includes/db.php");
+
+            
+
+            $comments_query = "SELECT * FROM comments";
+            $select_all_comments = mysqli_query($connection, $comments_query);
+
+            echo $comment_count = mysqli_num_rows($select_all_comments);
+
+        }
+
+    }
+
+}
+
+updateCommentCount();
 
 function deleteComments(){
 

@@ -1,11 +1,11 @@
 <div class="col-md-4">
 
-
+<?php if(!isset($_SESSION['username'])){ ?> 
                 <!-- Login -->
                 <div class="well">
                     <h4>Blog Search</h4>
                     
-
+                    
                     <form action="includes/login.php" method="post">
                         <div class="form-group">
                             <input name="username" type="text" class="form-control" placeholder="Enter your Username">
@@ -16,7 +16,7 @@
 
                         <div class="form-group">
                             <input name="login" type="submit" class="btn btn-primary" value="Login">
-                            <input name="logout" type="submit" class="btn btn-default" value="Log Out">
+                            <a name="logout" type="submit" class="btn btn-default" href="includes/logout.php?delete=<?php echo $session = session_id();?>">Log Out</a>
                         </div>
 
                         
@@ -25,9 +25,11 @@
                     </form>
                     <!-- /.input-group -->
                 </div>
+<?php } ?> 
 
                 <!-- Blog Search Well -->
                 <div class="well">
+                    <?php echo $_SESSION['user_role'];?>
                     <h4>Blog Search</h4>
 
                     <form action="search.php" method="post">

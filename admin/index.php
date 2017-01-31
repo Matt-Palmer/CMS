@@ -6,29 +6,7 @@
 
         <div id="page-wrapper">
 
-        <?php
         
-            $session = session_id();
-            $time = time();
-            $timeout_in_seconds = 30;
-            $timeout = $time - $timeout_in_seconds;
-
-
-            $query = "SELECT * FROM users_online WHERE session = '$session'";
-            $send_query = mysqli_query($connection, $query);
-
-            $count = mysqli_num_rows($send_query);
-
-            if($count == NULL){
-                mysqli_query($connection, "INSERT INTO users_online(session, time) VALUES ('$session', '$time')");
-            }else{
-                mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
-            }
-
-            $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$timeout'");
-            $count_user = mysqli_num_rows($users_online_query);
-
-        ?>
 
             <div class="container-fluid">
 
@@ -38,9 +16,9 @@
                         <h1 class="page-header">
                             Administration
 
-                            <?php echo $_SESSION['user_firstname']?>
+                            <?php echo $_SESSION['user_firstname'];?>
                             
-                            <?php echo $count_user?>
+
                         </h1>
                     </div>
                 </div>
@@ -97,14 +75,13 @@
                                     <div class="col-xs-9 text-right">
 
                                      <?php 
-                                    
-                                        $comments_query = "SELECT * FROM comments";
-                                        $select_all_comments = mysqli_query($connection, $comments_query);
+
+                                        $comment_query = "SELECT * FROM comments";
+                                        $select_all_comments = mysqli_query($connection, $comment_query);
 
                                         $comment_count = mysqli_num_rows($select_all_comments);
                                         
-
-                                        echo "<div class='huge'>{$comment_count}</div>"
+                                        echo "<div class='huge'><span class='commentCount'></span></div>"
                                     ?>
 
                                     <div>Comments</div>
@@ -129,6 +106,8 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <?php 
+
+                                            $count = usersOnline();
                                         
                                             $users_query = "SELECT * FROM users";
                                             $select_all_users = mysqli_query($connection, $users_query);
@@ -136,9 +115,11 @@
                                             $user_count = mysqli_num_rows($select_all_users);
                                             
 
-                                            echo "<div class='huge'>{$user_count}</div>"
+                                            echo "<div class='huge'>{$user_count} / <span class='usersOnline'></span></div>";
+
+                                            
                                         ?>
-                                        <div> Users</div>
+                                        <div> Users / Online</div>
                                     </div>
                                 </div>
                             </div>
@@ -286,6 +267,7 @@
                             },
                             colors: ['#5cb85c']
                             };
+                            
 
                             var chart = new google.charts.Bar(document.getElementById('comment_chart'));
 

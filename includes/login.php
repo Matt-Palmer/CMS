@@ -16,6 +16,7 @@
 
         $select_username_query = mysqli_query($connection, $query);
 
+
         if(!$select_username_query){
             die("query failed" . mysqli_error($connection));
         }
@@ -31,25 +32,47 @@
 
         }
 
-        $password = crypt($password, $db_user_password);
-
-
-        if($username === $db_username && $password === $db_user_password){
+        if(password_verify($password, $db_user_password)){
 
             $_SESSION['username'] = $db_username;
             $_SESSION['user_firstname'] = $db_user_firstname;
             $_SESSION['user_lastname'] = $db_user_lastname;
             $_SESSION['user_role'] = $db_user_role;
 
-            header("Location: ../admin");
+            if(isset($_SESSION['user_role'])){
+                if($_SESSION['user_role'] == 'Admin'){
 
+                    header("Location: ../admin");
+
+                }else{
+
+                    $session = session_id();
+                    $time = time();
+                    $timeout_in_seconds = 30;
+                    $timeout = $time - $timeout_in_seconds;
+                    
+                    $query = "SELECT * FROM users_online WHERE session = '$session'";
+                    $send_query = mysqli_query($connection, $query);
+
+                    $count = mysqli_num_rows($send_query);
+
+                    if($count == NULL){
+                        mysqli_query($connection, "INSERT INTO users_online(session, time) VALUES ('$session', '$time')");
+                    }else{
+                        mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
+                    }
+
+                    $users_online_query = mysqli_query($connection, "SELECT * FROM users_online");
+                    
+                    header("Location: ../index.php");
+
+                }
+            }
         }else{
 
             header("Location: ../index.php");
             
         }
-    }else{
-        header("Location: logout.php");
     }
 
 

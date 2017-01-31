@@ -1,4 +1,3 @@
-<?php include "includes/db.php";?>
 <?php include "includes/header.php";?>
 
 <!-- Navigation -->
@@ -22,7 +21,7 @@
                 if(isset($_GET['page'])){
                     $page = $_GET['page'];
                 }else{
-                    $page = "";
+                    $page = "1";
                 }
 
                 if($page == "" || $page == 1){
@@ -119,7 +118,7 @@
 
             for($i = 1; $i <= $count; $i++){
 
-                if($i == $page ){
+                if($i == $page){
                     echo "<li><a class='active_link' href='index.php?page={$i}'>$i</a></li>";
                 }else{
                     echo "<li><a href='index.php?page={$i}'>$i</a></li>";

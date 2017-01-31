@@ -32,11 +32,7 @@
 
                     <?php
                     
-                        if($_SESSION['user_role'] == "Admin"){
-                               
-                                   echo "<li><a href='admin'>Admin</a></li>";
-                               
-                        }
+                        
 
                     ?>
 
@@ -44,10 +40,16 @@
                     <?php
                     
                         if(isset($_SESSION['user_role'])){
-                               if(isset($_GET['p_id'])){
-                                   $p_id = $_GET['p_id'];
-                                   echo "<li><a href='admin/posts.php?source=edit_post&p_id={$p_id}'>Edit Post</a></li>";
-                               }
+
+                            if($_SESSION['user_role'] == "Admin"){
+
+                                echo "<li><a href='admin'>Admin</a></li>";
+
+                            }
+                            if(isset($_GET['p_id'])){
+                                $p_id = $_GET['p_id'];
+                                echo "<li><a href='admin/posts.php?source=edit_post&p_id={$p_id}'>Edit Post</a></li>";
+                            }
                         }
 
                     ?>
@@ -55,6 +57,31 @@
 
 
                 </ul>
+                <?php if(isset($_SESSION['username'])){ ?> 
+                    <ul class="nav navbar-right top-nav">                    
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                                <?php
+                                    if(isset($_SESSION['username'])){
+                                        echo ' ' . $_SESSION['user_firstname'] . ' ' . $_SESSION['user_lastname']; 
+                                    }
+
+                                    $session = session_id();
+                                ?>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="includes/logout.php?delete=<?php echo $session;?>"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                <?php } ?> 
             </div>
             <!-- /.navbar-collapse -->
         </div>
